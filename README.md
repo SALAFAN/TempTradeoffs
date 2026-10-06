@@ -48,18 +48,4 @@ Options:
 - `on_login = false`
 - `choices = 3`
 - `duration_minutes = 20`
-- `cooldown_days = 0`
-
-## Build
-
-This project targets Forge `1.20.1-47.2.0` and Java 17.
-
-Use the Forge 1.20.1 MDK/Gradle environment and run:
-
-`gradlew build`
-
-The resulting jar is in `build/libs/`.
-
-## Important implementation note
-
-This is an original standalone implementation of the requested mechanic. It does not include WYRBB code.
+- `cooldown_days = 0`s
