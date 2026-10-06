@@ -29,8 +29,8 @@ public class TradeoffScreen extends Screen {
 
     @Override public void render(GuiGraphics g,int mouseX,int mouseY,float partial){
         renderBackground(g);
-        g.drawCenteredString(font,title,getWidth()/2,25,0xFFFFFF);
-        g.drawCenteredString(font,Component.translatable("screen.temptradeoffs.subtitle"),getWidth()/2,45,0xAAAAAA);
+        g.drawCenteredString(font, title, this.width / 2, 25, 0xFFFFFF);
+        g.drawCenteredString(font, Component.translatable("screen.temptradeoffs.subtitle"), this.width / 2, 45, 0xAAAAAA);
         int w=180,gap=12,total=w*choices.size()+gap*(choices.size()-1),start=(width-total)/2;
         for(int i=0;i<choices.size();i++) drawChoice(g,choices.get(i),start+i*(w+gap),panelTop,w);
         super.render(g,mouseX,mouseY,partial);
