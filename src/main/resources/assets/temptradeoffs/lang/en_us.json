@@ -1,0 +1,18 @@
+{
+  "screen.temptradeoffs.title": "Choose your fate",
+  "screen.temptradeoffs.subtitle": "Every choice has a price.",
+  "screen.temptradeoffs.choose": "Choose",
+  "screen.temptradeoffs.expires": "Duration: %s",
+  "screen.temptradeoffs.buff": "+ %s",
+  "screen.temptradeoffs.debuff": "- %s",
+  "choice.temptradeoffs.berserker": "Berserker",
+  "choice.temptradeoffs.adrenaline": "Adrenaline",
+  "choice.temptradeoffs.iron_skin": "Iron Skin",
+  "choice.temptradeoffs.night_owl": "Night Owl",
+  "choice.temptradeoffs.hunter": "Hunter",
+  "choice.temptradeoffs.regenerator": "Regenerator",
+  "choice.temptradeoffs.feather": "Featherstep",
+  "choice.temptradeoffs.water_breath": "Drowned Gift",
+  "choice.temptradeoffs.berserk_speed": "Overdrive",
+  "choice.temptradeoffs.guardian": "Guardian"
+}
