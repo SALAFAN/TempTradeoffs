@@ -1,4 +1,4 @@
-# Temporary Tradeoffs v2.2.0 example configuration
+# Temporary Tradeoffs v2.3.0 example configuration
 [triggers]
 new_day = true
 level_up = true
@@ -9,6 +9,9 @@ choices = 3
 cooldown_days = 0
 positive_weight_budget = 1000
 negative_weight_budget = 1000
+max_selection_weight = 1000
+positive_effect_weights = []
+negative_effect_weights = []
 min_effects_per_side = 1
 max_effects_per_side = 10
 
