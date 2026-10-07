@@ -1,0 +1,14 @@
+{
+  "screen.temptradeoffs.title": "Choose your fate",
+  "screen.temptradeoffs.subtitle": "Every choice has a price. Effect weights are hidden.",
+  "screen.temptradeoffs.choose": "Choose",
+  "screen.temptradeoffs.expires": "Duration: %s",
+  "screen.temptradeoffs.positive": "Positive modifiers",
+  "screen.temptradeoffs.negative": "Negative modifiers",
+  "choice.temptradeoffs.fate": "Fate",
+  "choice.temptradeoffs.risk": "Risk",
+  "choice.temptradeoffs.bargain": "Bargain",
+  "choice.temptradeoffs.temptation": "Temptation",
+  "choice.temptradeoffs.exchange": "Exchange",
+  "choice.temptradeoffs.gamble": "Gamble"
+}
