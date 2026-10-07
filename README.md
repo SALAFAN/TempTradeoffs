@@ -1,66 +1,117 @@
-# Temporary Tradeoffs — Forge 1.20.1 v2.2.0
+# TempTradeoffs
 
-Standalone Forge 1.20.1 mod.
+**TempTradeoffs** — standalone Forge-мод для **Minecraft 1.20.1**.
 
-## What changed
+Мод создаёт временные (до следующего выбора) компромиссы для игрока: при наступлении нового игрового дня, повышении уровня или другом включённом триггере игрок получает несколько карточек. Каждая карточка содержит набор положительных и отрицательных модификаторов, и игрок сам выбирает одну.
 
-- The choice screen has priority over other Minecraft GUIs.
-- Specifically prevents another mod such as Midnight Thoughts from replacing the choice screen immediately after sleeping.
-- A card can contain multiple positive and multiple negative modifiers.
-- Every modifier has a hidden balance weight.
-- Each card has separate hidden positive/negative weight budgets.
-- Supports vanilla MobEffects.
-- Supports vanilla player attributes.
-- Automatically detects a Craft to Exile 2-style environment through Mine and Slash plus Exile Overlay/Library of Exile.
-- In that environment, Mine and Slash MobEffects and attributes are added to the candidate pool without adding Mine and Slash as a hard dependency.
-- Only modifiers created by this mod are removed when a choice is replaced; selected modifiers are permanent until the next choice.
-- Existing foreign potion effects are snapshotted and restored when safe.
-- If another mod changes the same potion effect while TempTradeoffs is active, TempTradeoffs leaves the newer foreign effect alone.
+## Что умеет мод сейчас
 
-## Important
+### Система карточек
+- 2 или 3 варианта на выбор.
+- Несколько положительных и несколько отрицательных эффектов в одной карточке.
+- Отдельный бюджет положительной и отрицательной стороны.
+- Дефолтный бюджет — **1000 / 1000**. Генератор старается заполнить каждый бюджет максимально близко к 1000.
+- Вес варианта используется как его стоимость бюджета и как параметр вероятности при случайном подборе.
+- Для каждого варианта можно вручную задать значение и вес.
+- Можно задать минимум и максимум модификаторов на сторону.
 
-The modpack itself is not detectable as a single Forge mod ID. The CTE2 integration therefore uses characteristic installed mods rather than a literal "Craft to Exile 2" mod ID.
+### Статусные эффекты
+Отдельный пул стандартных Minecraft `MobEffect`: эффекты зелий, еды и другие эффекты, которые отображаются стандартным HUD с иконкой. Уровень такого эффекта настраивается числом.
 
-Build target: Forge 1.20.1-47.2.0, Java 17.
+### Прочие модификаторы
+Отдельный пул для характеристик, атрибутов и внутренних RPG-параметров, которые не имеют стандартной иконки эффекта.
 
+Поддерживаются:
+- ванильные атрибуты игрока;
+- совместимые модовые эффекты и атрибуты;
+- интеграция с Craft to Exile 2 / Mine and Slash;
+- внутренние статистики Mine and Slash через его API, когда нужная версия мода доступна.
 
-## Craft to Exile 2
+### Сохранение и применение
+- Выбранные модификаторы сохраняются после смерти.
+- При следующем выборе старые модификаторы TempTradeoffs удаляются и заменяются новыми.
+- Эффекты других модов и ванильные эффекты не должны удаляться.
+- Статусные эффекты выдаются с бесконечной длительностью и не снимаются молоком как обычные временные эффекты.
+- Выбранные атрибуты получают отдельные UUID/source, поэтому их можно безопасно удалить при следующей замене.
+- Mine and Slash получает уникальный source для каждого модификатора TempTradeoffs.
+- Выбранный набор восстанавливается после входа в мир и после респавна.
+- Если выбранный набор уже существует, меню выбора при входе повторно не открывается при включённой соответствующей настройке.
 
-The CTE2 detector uses Mine and Slash mod id `mmorpg`, which is the id used by the 1.20.1 build in the target pack. Forge-registered Mine and Slash MobEffects/Attributes are included when CTE2 integration is enabled.
+### Настройки
+Внутриигровое меню настроек содержит отдельные разделы для:
+- общих параметров;
+- триггеров;
+- выбора и бюджетов;
+- пула эффектов;
+- интерфейса;
+- положительных эффектов;
+- отрицательных эффектов.
 
-Mine and Slash also has internal RPG stats that are not Forge MobEffects or Attributes, including **Augment Capacity** (formerly Aura Capacity). Those require a dedicated Mine and Slash API adapter and are not safely writable through the vanilla/Forge attribute registry. The current build therefore does not pretend to support those internal stats yet.
+Положительные и отрицательные эффекты дополнительно разделены на:
+1. **Статусные эффекты** — зелья/еда и другие `MobEffect`;
+2. **Прочие модификаторы** — атрибуты и Mine and Slash.
 
+Для каждого варианта доступны отдельные поля:
+- значение;
+- вес;
+- включение/выключение.
 
-## Mine and Slash 6.4.x integration
+При наведении на название эффекта показывается его описание. При наведении на поля значения и веса объясняется назначение соответствующего поля.
 
-When Craft to Exile 2 / Mine and Slash is detected, TempTradeoffs uses Mine and Slash's own
-`StatsRegister` and generated stat variants rather than guessing ResourceLocations.
+### Интерфейс
+- Меню выбора имеет приоритет над другими открытыми GUI.
+- Есть отдельное меню просмотра текущего выбранного набора.
+- В инвентаре отображается кнопка с иконкой ванильной трески.
+- Кнопка находится в одном и том же экранном месте в обычном инвентаре и Curios — справа от блока FTB Teams/FTB Quests.
+- На кнопке нет текста; при наведении показывается подсказка.
+- В текущем выборе показывается обратный отсчёт до следующего игрового дня на основе реального `dayTime` мира.
 
-For Mine and Slash 6.4.13 the integration uses the real `CustomExactStatsData.addMod(...)` /
-`removeMod(...)` API. This covers internal stats such as Augment Capacity (`spirit_cost`), Mana,
-Energy, Health, Health/Mana/Energy/Magic Shield regeneration, combat/defense stats, loot stats,
-and generated elemental/stat variants that Mine and Slash itself registers.
+### Локализация
+- Русский и английский интерфейс.
+- Названия стандартных эффектов берутся из локализации Minecraft.
+- Названия Mine and Slash могут брать локализацию самого Mine and Slash.
+- Локальные переопределения можно задавать в `assets/temptradeoffs/lang/ru_ru.json` и `en_us.json`.
+- Для названий используются ключи `modifier_name.temptradeoffs.*`, для описаний — `modifier_description.temptradeoffs.*`.
 
-TempTradeoffs stores a unique source key for every MnS modifier, so replacing a choice removes
-only modifiers created by TempTradeoffs.
+### Оптимизация
+- Каталоги эффектов кэшируются.
+- Mine and Slash проверяется только при включённой интеграции и наличии нужного мода.
+- Проверка сохранённых модификаторов выполняется периодически, а не тяжёлым сканированием каждый тик.
+- Генерация карточек выполняется только при создании предложения.
 
-## v2.6.0 changes
-- Default positive and negative budgets are 1000. Card generation actively fills each side as close to the budget as possible.
-- Default vanilla, modded, attribute and Mine & Slash weights were rebalanced for the 1000-point target.
-- Fish button uses a fixed upper-left screen-space row and anchors immediately after FTB sidebar buttons, including Curios.
-- Configuration tabs use two rows so Russian labels cannot overlap.
+## Установка
 
-## v2.5.0 changes
-- Per-variant manual numeric values are configurable separately from weights.
-- Each effect/stat family can be enabled or disabled independently from the in-game Positive/Negative tabs.
-- Vanilla status effects are listed explicitly in the pool according to their beneficial/harmful category.
-- Candidate catalogs are cached and modifier enforcement is throttled to reduce server load.
-- Existing selected tradeoffs are restored on login without reopening the choice screen.
-- Current-choice screen shows the remaining in-game time until the next Minecraft day.
-- Inventory/Curios fish button is positioned after the existing upper-left button block.
-- Added file-based custom name overrides using `modifier_name.temptradeoffs.<type>.<id>` in the mod language files.
+Требуется:
+- **Minecraft Java Edition 1.20.1**
+- **Minecraft Forge 47.x** (проект собирается под Forge 1.20.1; для текущего проекта использовался Forge 47.4.23)
+- Java 17.
 
-### v2.6.1 changes
-- Fixed the General tab settings rows overlapping: the choices and cooldown fields now have separate positions.
-- Positive/negative effect configuration pages are split into two submenus: visible Minecraft status effects (potions/food) and other modifiers (attributes/Mine & Slash stats).
-- The same manual value/weight/enabled controls are preserved in both submenus.
+Скопируйте `TempTradeoffs-*.jar` в папку `mods`.
+
+## Craft to Exile 2 / Mine and Slash
+
+Интеграция не делает Mine and Slash обязательной зависимостью. При обнаружении `mmorpg` TempTradeoffs подключает доступные статистики через адаптер. В версии Mine and Slash 6.4.13 были проверены реальные API `CustomExactStatsData.addMod(...)` и `removeMod(...)`.
+
+## История версий
+
+### v2.7.0
+- Исправлено применение настраиваемого уровня статусных эффектов: введённое значение теперь реально используется при выдаче эффекта.
+- Исправлено отображение и восстановление текущих эффектов после выбора.
+- Исправлено сохранение веса при изменении значения варианта.
+- Переключатель варианта больше не сбрасывает значения и вес остальных вариантов того же эффекта.
+- Значение/вес теперь имеют стабильные ключи конфигурации.
+- Добавлены подсказки для полей значения и веса.
+- Добавлены описания эффектов при наведении на их название в настройках.
+- Исправлены потенциальные пересечения координат колонок и scrollbar.
+- Рыбка получила единое фиксированное экранное положение справа от блока FTB Teams/FTB Quests для обычного инвентаря и Curios.
+- README переработан из changelog в описание возможностей; история изменений вынесена вниз.
+
+### v2.6.1
+- Исправлены строки настроек вкладки «Общие».
+- Положительные и отрицательные эффекты разделены на статусные и прочие модификаторы.
+
+### v2.6.0
+- Дефолтные бюджеты положительной и отрицательной сторон установлены в 1000.
+- Генератор старается максимально заполнить бюджет.
+- Перебалансированы дефолтные веса пула.
+- Обновлено позиционирование кнопки текущего выбора.
