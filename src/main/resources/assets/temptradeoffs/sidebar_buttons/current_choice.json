@@ -1,0 +1,12 @@
+{
+  "icon": "item:minecraft:cod",
+  "default_enabled": true,
+  "sort_index": 576,
+  "click": [
+    "command:/temptradeoffs info"
+  ],
+  "tooltip": [
+    { "translate": "sidebar_button.temptradeoffs.current_choice" }
+  ],
+  "required_mods": ["temptradeoffs"]
+}
