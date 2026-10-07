@@ -246,13 +246,6 @@ public final class EffectCatalog {
             Attribute attribute,
             boolean positive
     ) {
-        // Only attributes with a sane finite range are considered.
-        double min = attribute.getMinValue();
-        double max = attribute.getMaxValue();
-        if (!Double.isFinite(min) || !Double.isFinite(max) || max <= min) {
-            return;
-        }
-
         // Three hidden power tiers. The actual value is deliberately not shown as a "weight".
         double[] amounts = {0.05, 0.10, 0.20};
         int[] weights = {1, 2, 4};

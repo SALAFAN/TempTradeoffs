@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.Clone;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +50,7 @@ public final class TradeoffManager {
         }
 
         cleanupExpired(sp);
+        enforceApplied(sp);
 
         if (TTConfig.NEW_DAY.get() && sp.level().getDayTime() % 24000L == 0L) {
             long day = sp.level().getDayTime() / 24000L;
@@ -60,6 +62,18 @@ public final class TradeoffManager {
                     openChoice(sp, false);
                 }
             }
+        }
+    }
+
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        if (!(event.getOriginal() instanceof ServerPlayer oldPlayer)
+                || !(event.getEntity() instanceof ServerPlayer newPlayer)) {
+            return;
+        }
+
+        CompoundTag oldData = oldPlayer.getPersistentData().getCompound(ROOT).copy();
+        if (!oldData.isEmpty()) {
+            newPlayer.getPersistentData().put(ROOT, oldData);
         }
     }
 
@@ -133,7 +147,7 @@ public final class TradeoffManager {
             return;
         }
 
-        chosen = deserializeTradeoff(serialized);
+        Tradeoff chosen = deserializeTradeoff(serialized);
         if (chosen == null) {
             return;
         }
@@ -240,6 +254,68 @@ public final class TradeoffManager {
         }
 
         applied.add(tag);
+    }
+
+    private static void enforceApplied(ServerPlayer sp) {
+        CompoundTag root = data(sp);
+        if (!root.contains(APPLIED)) {
+            return;
+        }
+
+        ListTag applied = root.getList(APPLIED, Tag.TAG_COMPOUND);
+        long now = sp.level().getGameTime();
+
+        for (int i = 0; i < applied.size(); i++) {
+            CompoundTag tag = applied.getCompound(i);
+            long end = tag.getLong(END);
+            if (now >= end) {
+                continue;
+            }
+
+            ResourceLocation id = ResourceLocation.tryParse(tag.getString(ID));
+            if (id == null) {
+                continue;
+            }
+
+            Tradeoff.ModifierType type = Tradeoff.ModifierType.valueOf(tag.getString(TYPE));
+            if (type == Tradeoff.ModifierType.MOB_EFFECT) {
+                MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(id);
+                if (effect == null) {
+                    continue;
+                }
+
+                int remaining = (int) Math.max(1L, end - now);
+                MobEffectInstance current = sp.getEffect(effect);
+
+                if (current == null
+                        || current.getAmplifier() != tag.getInt(AMPLIFIER)
+                        || current.getDuration() < remaining - 2) {
+                    sp.addEffect(new MobEffectInstance(
+                            effect, remaining, tag.getInt(AMPLIFIER), false, true, true
+                    ));
+                }
+            } else {
+                Attribute attribute = BuiltInRegistries.ATTRIBUTE.get(id);
+                if (attribute == null) {
+                    continue;
+                }
+
+                AttributeInstance instance = sp.getAttribute(attribute);
+                if (instance == null || !tag.hasUUID(UUID_KEY)) {
+                    continue;
+                }
+
+                UUID uuid = tag.getUUID(UUID_KEY);
+                if (instance.getModifier(uuid) == null) {
+                    instance.addTransientModifier(new AttributeModifier(
+                            uuid,
+                            "TempTradeoffs",
+                            tag.getDouble(AMOUNT),
+                            AttributeModifier.Operation.valueOf(tag.getString(OPERATION))
+                    ));
+                }
+            }
+        }
     }
 
     private static void cleanupExpired(ServerPlayer sp) {

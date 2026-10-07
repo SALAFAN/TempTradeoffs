@@ -26,6 +26,7 @@ public class TempTradeoffs {
 
         MinecraftForge.EVENT_BUS.addListener(TradeoffManager::onPlayerTick);
         MinecraftForge.EVENT_BUS.addListener(TradeoffManager::onPlayerLogin);
+        MinecraftForge.EVENT_BUS.addListener(TradeoffManager::onPlayerClone);
         MinecraftForge.EVENT_BUS.addListener(TempTradeoffs::registerCommands);
     }
 
