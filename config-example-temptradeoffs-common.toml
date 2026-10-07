@@ -1,0 +1,24 @@
+# Temporary Tradeoffs v2.1.0 example configuration
+[triggers]
+new_day = true
+level_up = true
+on_login = false
+
+[selection]
+choices = 3
+cooldown_days = 0
+positive_weight_budget = 1000
+negative_weight_budget = 1000
+min_effects_per_side = 1
+max_effects_per_side = 10
+
+[pool]
+vanilla_effects = true
+vanilla_attributes = true
+modded_effects = true
+modded_attributes = true
+craft_to_exile_2_integration = true
+
+[interface]
+freeze_while_choosing = true
+hud_button = true
