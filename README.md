@@ -1,4 +1,4 @@
-# Temporary Tradeoffs — Forge 1.20.1 v2.1.0
+# Temporary Tradeoffs — Forge 1.20.1 v2.2.0
 
 Standalone Forge 1.20.1 mod.
 
@@ -29,3 +29,17 @@ Build target: Forge 1.20.1-47.2.0, Java 17.
 The CTE2 detector uses Mine and Slash mod id `mmorpg`, which is the id used by the 1.20.1 build in the target pack. Forge-registered Mine and Slash MobEffects/Attributes are included when CTE2 integration is enabled.
 
 Mine and Slash also has internal RPG stats that are not Forge MobEffects or Attributes, including **Augment Capacity** (formerly Aura Capacity). Those require a dedicated Mine and Slash API adapter and are not safely writable through the vanilla/Forge attribute registry. The current build therefore does not pretend to support those internal stats yet.
+
+
+## Mine and Slash 6.4.x integration
+
+When Craft to Exile 2 / Mine and Slash is detected, TempTradeoffs uses Mine and Slash's own
+`StatsRegister` and generated stat variants rather than guessing ResourceLocations.
+
+For Mine and Slash 6.4.13 the integration uses the real `CustomExactStatsData.addMod(...)` /
+`removeMod(...)` API. This covers internal stats such as Augment Capacity (`spirit_cost`), Mana,
+Energy, Health, Health/Mana/Energy/Magic Shield regeneration, combat/defense stats, loot stats,
+and generated elemental/stat variants that Mine and Slash itself registers.
+
+TempTradeoffs stores a unique source key for every MnS modifier, so replacing a choice removes
+only modifiers created by TempTradeoffs.

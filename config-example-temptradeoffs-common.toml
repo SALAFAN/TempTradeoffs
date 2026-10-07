@@ -1,4 +1,4 @@
-# Temporary Tradeoffs v2.1.0 example configuration
+# Temporary Tradeoffs v2.2.0 example configuration
 [triggers]
 new_day = true
 level_up = true
