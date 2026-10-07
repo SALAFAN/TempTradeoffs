@@ -4,6 +4,7 @@ import com.warg.temptradeoffs.TempTradeoffs;
 import com.warg.temptradeoffs.common.Tradeoff;
 import com.warg.temptradeoffs.server.TradeoffManager;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraftforge.network.NetworkEvent;
