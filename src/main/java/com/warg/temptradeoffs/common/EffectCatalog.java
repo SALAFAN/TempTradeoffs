@@ -87,9 +87,10 @@ public final class EffectCatalog {
 
         // First guarantee the configured minimum count whenever possible.
         while (result.size() < minCount) {
+            final int currentRemaining = remaining;
             List<Tradeoff.ModifierSpec> fitting = pool.stream()
                     .filter(x -> !used.contains(x.stableKey()))
-                    .filter(x -> x.weight() <= remaining)
+                    .filter(x -> x.weight() <= currentRemaining)
                     .toList();
 
             if (fitting.isEmpty()) {
@@ -104,9 +105,10 @@ public final class EffectCatalog {
 
         // Fill the remaining hidden budget with a random weighted combination.
         while (result.size() < maxCount && remaining > 0) {
+            final int currentRemaining = remaining;
             List<Tradeoff.ModifierSpec> fitting = pool.stream()
                     .filter(x -> !used.contains(x.stableKey()))
-                    .filter(x -> x.weight() <= remaining)
+                    .filter(x -> x.weight() <= currentRemaining)
                     .toList();
 
             if (fitting.isEmpty()) {
