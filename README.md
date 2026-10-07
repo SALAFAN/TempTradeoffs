@@ -44,6 +44,12 @@ and generated elemental/stat variants that Mine and Slash itself registers.
 TempTradeoffs stores a unique source key for every MnS modifier, so replacing a choice removes
 only modifiers created by TempTradeoffs.
 
+## v2.6.0 changes
+- Default positive and negative budgets are 1000. Card generation actively fills each side as close to the budget as possible.
+- Default vanilla, modded, attribute and Mine & Slash weights were rebalanced for the 1000-point target.
+- Fish button uses a fixed upper-left screen-space row and anchors immediately after FTB sidebar buttons, including Curios.
+- Configuration tabs use two rows so Russian labels cannot overlap.
+
 ## v2.5.0 changes
 - Per-variant manual numeric values are configurable separately from weights.
 - Each effect/stat family can be enabled or disabled independently from the in-game Positive/Negative tabs.
