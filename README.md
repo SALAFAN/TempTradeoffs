@@ -43,3 +43,13 @@ and generated elemental/stat variants that Mine and Slash itself registers.
 
 TempTradeoffs stores a unique source key for every MnS modifier, so replacing a choice removes
 only modifiers created by TempTradeoffs.
+
+## v2.5.0 changes
+- Per-variant manual numeric values are configurable separately from weights.
+- Each effect/stat family can be enabled or disabled independently from the in-game Positive/Negative tabs.
+- Vanilla status effects are listed explicitly in the pool according to their beneficial/harmful category.
+- Candidate catalogs are cached and modifier enforcement is throttled to reduce server load.
+- Existing selected tradeoffs are restored on login without reopening the choice screen.
+- Current-choice screen shows the remaining in-game time until the next Minecraft day.
+- Inventory/Curios fish button is positioned after the existing upper-left button block.
+- Added file-based custom name overrides using `modifier_name.temptradeoffs.<type>.<id>` in the mod language files.
