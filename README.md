@@ -59,3 +59,8 @@ only modifiers created by TempTradeoffs.
 - Current-choice screen shows the remaining in-game time until the next Minecraft day.
 - Inventory/Curios fish button is positioned after the existing upper-left button block.
 - Added file-based custom name overrides using `modifier_name.temptradeoffs.<type>.<id>` in the mod language files.
+
+### v2.6.1 changes
+- Fixed the General tab settings rows overlapping: the choices and cooldown fields now have separate positions.
+- Positive/negative effect configuration pages are split into two submenus: visible Minecraft status effects (potions/food) and other modifiers (attributes/Mine & Slash stats).
+- The same manual value/weight/enabled controls are preserved in both submenus.
