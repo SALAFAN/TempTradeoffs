@@ -67,3 +67,19 @@ TempTradeoffs добавляет в выживание систему выбор
 5. Запусти игру через профиль Forge 1.20.1.
 
 TempTradeoffs **не требует** Craft to Exile 2 или Mine and Slash для работы. Интеграция с ними является необязательной и включается только при наличии соответствующих модов.
+
+### Card rarity and balancing
+
+Each generated card now has a rarity:
+
+- **Common** — positive/negative pool 1000 / 1000
+- **Uncommon** — 1250 / 1250
+- **Rare** — 1500 / 1500
+- **Epic** — 1750 / 1750
+- **Legendary** — 2000 / 2000
+- **Cursed** — 4000 positive pool and exactly two very strong negative modifiers with no negative pool cap
+- **Blessed** — 2500 positive pool / 750 negative pool
+
+Rarity is shown with its own color in the choice screen and in the current-choice screen.
+
+The hand-tuned effect values remain the balancing anchors. In particular, the manually specified 800–1000 range is treated as the top end of the normal power scale. When a generated card contains a modifier costing 850+, the opposite side receives additional budget; 900+ receives a larger compensation and 1000+ receives the maximum compensation tier. This works in both directions, so a very strong penalty can create additional room for bonuses.
