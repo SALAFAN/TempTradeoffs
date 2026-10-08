@@ -16,6 +16,7 @@ import net.minecraft.client.resources.language.I18n;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /** Full in-game configuration screen with the original settings plus weight configuration. */
 public class TTConfigScreen extends Screen {
