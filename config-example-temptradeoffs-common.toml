@@ -1,12 +1,13 @@
-# Temporary Tradeoffs v2.3.0 example configuration
+# Temporary Tradeoffs v0.1.5 example configuration
 [triggers]
 new_day = true
-level_up = true
-on_login = false
+level_up = false
+on_login = true
+skip_login_if_active = false
 
 [selection]
 choices = 3
-cooldown_days = 0
+cooldown_days = 5
 positive_weight_budget = 1000
 negative_weight_budget = 1000
 max_selection_weight = 1000
