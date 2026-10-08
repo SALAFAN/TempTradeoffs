@@ -17,7 +17,7 @@ public class TradeoffScreen extends Screen {
     private static final int CARD_W = 205;
     private static final int CARD_H = 355;
     private static final int GAP = 10;
-    private static final int EFFECT_TEXT_SCALE = 0.90;
+    private static final float EFFECT_TEXT_SCALE = 0.90F;
 
     private final List<TTPackets.ChoiceView> choices;
     private Button[] buttons;
