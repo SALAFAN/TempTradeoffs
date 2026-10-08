@@ -82,4 +82,8 @@ Each generated card now has a rarity:
 
 Rarity is shown with its own color in the choice screen and in the current-choice screen.
 
+Rarity generation chances are: Common 21%, Uncommon 19%, Rare 17%, Epic 15%, Legendary 12%, Cursed 9%, Blessed 7% (100% total). Higher rarities are therefore progressively less common without making the special rarities effectively unobtainable.
+
+Both the mandatory choice screen and the current-choice viewer use a vanilla Minecraft-inspired pixel/beveled container style with dark inventory-like panels, highlighted borders, rarity-colored accents, and Minecraft-style buttons.
+
 The hand-tuned effect values remain the balancing anchors. In particular, the manually specified 800–1000 range is treated as the top end of the normal power scale. When a generated card contains a modifier costing 850+, the opposite side receives additional budget; 900+ receives a larger compensation and 1000+ receives the maximum compensation tier. This works in both directions, so a very strong penalty can create additional room for bonuses.
